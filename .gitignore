@@ -1,0 +1,25 @@
+# Input files
+source_documents/
+
+# Generated output files
+output/
+
+archive/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Sensitive
+.claude/settings.local.json

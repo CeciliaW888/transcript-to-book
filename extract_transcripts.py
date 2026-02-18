@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Extract all transcript texts from .docx files"""
+"""Extract transcript texts from .docx, .txt, and .pdf files"""
 
 import docx
 import json
@@ -14,31 +14,98 @@ from tqdm import tqdm
 # Setup logging (will be configured in main() after creating output dir)
 logger = logging.getLogger(__name__)
 
-def extract_text(docx_path: Path) -> str:
-    """Extract all text from a .docx file including paragraphs and tables"""
-    try:
-        doc = docx.Document(docx_path)
+SUPPORTED_EXTENSIONS = {'.docx', '.txt', '.pdf', '.srt', '.vtt'}
 
-        # Extract paragraphs
+
+def extract_text(file_path: Path) -> str:
+    """Extract text from supported file types"""
+    ext = file_path.suffix.lower()
+
+    if ext == '.docx':
+        return _extract_docx(file_path)
+    elif ext == '.txt':
+        return _extract_txt(file_path)
+    elif ext == '.pdf':
+        return _extract_pdf(file_path)
+    elif ext in ('.srt', '.vtt'):
+        return _extract_subtitle(file_path)
+    else:
+        raise ValueError(f"Unsupported file type: {ext}")
+
+
+def _extract_docx(file_path: Path) -> str:
+    """Extract text from Word document"""
+    try:
+        doc = docx.Document(file_path)
         paragraphs = [p.text for p in doc.paragraphs if p.text.strip()]
 
-        # Extract table content
         table_text = []
         for table in doc.tables:
             for row in table.rows:
                 row_text = [cell.text for cell in row.cells]
                 table_text.append(' | '.join(row_text))
 
-        # Combine all text
-        all_text = paragraphs + table_text
-        return '\n\n'.join(all_text)
-
-    except FileNotFoundError:
-        logger.error(f"文件不存在: {docx_path}")
-        raise
+        return '\n\n'.join(paragraphs + table_text)
     except Exception as e:
-        logger.exception(f"提取失败 {docx_path}")
+        logger.exception(f"提取失败 {file_path}")
         raise
+
+
+def _extract_txt(file_path: Path) -> str:
+    """Extract text from plain text file"""
+    try:
+        return file_path.read_text(encoding='utf-8')
+    except UnicodeDecodeError:
+        return file_path.read_text(encoding='gbk')
+
+
+def _extract_pdf(file_path: Path) -> str:
+    """Extract text from PDF file"""
+    try:
+        import pdfplumber
+    except ImportError:
+        raise ImportError("PDF support requires pdfplumber. Run: pip install pdfplumber")
+
+    text_parts = []
+    with pdfplumber.open(file_path) as pdf:
+        for page in pdf.pages:
+            page_text = page.extract_text()
+            if page_text:
+                text_parts.append(page_text)
+
+    return '\n\n'.join(text_parts)
+
+
+def _extract_subtitle(file_path: Path) -> str:
+    """Extract text from SRT/VTT subtitle file, stripping timestamps"""
+    import re
+
+    try:
+        content = file_path.read_text(encoding='utf-8')
+    except UnicodeDecodeError:
+        content = file_path.read_text(encoding='gbk')
+
+    # Remove WEBVTT header
+    content = re.sub(r'^WEBVTT.*?\n', '', content)
+
+    # Remove sequence numbers (lines that are just digits)
+    content = re.sub(r'^\d+\s*$', '', content, flags=re.MULTILINE)
+
+    # Remove timestamp lines (00:00:00,000 --> 00:00:02,000 or similar)
+    content = re.sub(r'\d{2}:\d{2}:\d{2}[.,]\d{3}\s*-->\s*\d{2}:\d{2}:\d{2}[.,]\d{3}.*', '', content)
+
+    # Clean up extra blank lines
+    content = re.sub(r'\n{3,}', '\n\n', content)
+
+    return content.strip()
+
+
+def scan_source_files(source_dir: Path) -> List[Path]:
+    """Scan directory for all supported transcript files"""
+    files = []
+    for ext in SUPPORTED_EXTENSIONS:
+        files.extend(source_dir.glob(f'*{ext}'))
+    return sorted(files, key=lambda p: p.name)
 
 def main() -> None:
     """Extract transcripts and save to JSON"""

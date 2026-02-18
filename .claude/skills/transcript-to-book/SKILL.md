@@ -54,9 +54,11 @@ When provided with multiple transcript files:
 3. Wait for extraction to complete (creates JSON with all transcript text)
 4. Then read from `output/transcripts_extracted.json` for processing
 
+**Supported file formats**: `.docx`, `.txt`, `.pdf`, `.srt`, `.vtt`
+
 This is necessary because:
 
-- Claude Code CLI's Read tool cannot read binary .docx files
+- Claude Code CLI's Read tool cannot read binary .docx/.pdf files
 - The JSON file caches all extracted text for efficient processing
 - Large transcript collections (1M+ characters) need chunked reading
 

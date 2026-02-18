@@ -10,7 +10,7 @@ This toolkit converts `.docx` transcript files into a polished, print-ready book
 
 ### Quick Start
 
-1. **Add your transcripts**: Place `.docx` files in `source_documents/`
+1. **Add your transcripts**: Place files in `source_documents/` (supports `.docx`, `.txt`, `.pdf`, `.srt`, `.vtt`)
 2. **Run the skill**: In Claude Code, run `/transcript-to-book`
 3. **Output**: Find your book in `output/` folder
 
@@ -50,7 +50,7 @@ After generating the markdown book:
 
 ### 快速开始
 
-1. **添加文稿**: 将 `.docx` 文件放入 `source_documents/` 文件夹
+1. **添加文稿**: 将文件放入 `source_documents/`（支持 `.docx`、`.txt`、`.pdf`、`.srt`、`.vtt`）
 2. **运行技能**: 在 Claude Code 中运行 `/transcript-to-book`
 3. **查看输出**: 在 `output/` 文件夹中找到生成的书籍
 

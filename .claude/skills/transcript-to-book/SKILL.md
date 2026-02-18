@@ -456,7 +456,7 @@ Verify:
 
 ## Notes
 
-- The extraction script (`extract_transcripts.py`) is required because Claude Code CLI cannot read binary .docx files
+- The extraction script (`extract_transcripts.py`) is required because Claude Code CLI cannot read binary .docx/.pdf files
 - The skill auto-runs the extraction script if JSON cache is missing
 - Auto-clustering analyzes filenames first; can sample content if needed for disambiguation
 - Users can manually adjust suggested groupings before final generation

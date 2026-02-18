@@ -6,7 +6,7 @@ Transform lecture/podcast transcripts into narrative book chapters using AI.
 
 ### What This Does
 
-This toolkit converts `.docx` transcript files into a polished, print-ready book (Markdown + EPUB) using Claude Code's AI capabilities.
+This toolkit converts transcript files (`.docx`, `.txt`, `.pdf`, `.srt`, `.vtt`) into a polished, print-ready book (Markdown + EPUB) using Claude Code's AI capabilities.
 
 ### Quick Start
 
@@ -46,7 +46,7 @@ After generating the markdown book:
 
 ### 功能简介
 
-将讲座/播客的 `.docx` 文稿转换为叙事体书籍（Markdown + EPUB格式）。
+将讲座/播客文稿（`.docx`、`.txt`、`.pdf`、`.srt`、`.vtt`）转换为叙事体书籍（Markdown + EPUB格式）。
 
 ### 快速开始
 

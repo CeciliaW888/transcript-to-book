@@ -4,13 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Purpose
 
-A toolkit for transforming lecture/podcast transcripts (.docx files) into narrative book chapters using AI. Outputs Markdown and EPUB formats.
+A toolkit for transforming lecture/podcast transcripts into narrative book chapters using AI. Supports `.docx`, `.txt`, `.pdf`, `.srt`, `.vtt` formats. Outputs Markdown and EPUB.
 
 ## Directory Structure
 
 ```
 transcript-to-book/
-├── source_documents/       # Your .docx transcript files (user-provided)
+├── source_documents/       # Your transcript files (user-provided)
 ├── output/                 # Generated files (JSON, MD, EPUB)
 ├── .claude/                # Claude Code skills
 ├── extract_transcripts.py  # Optional: pre-extract for large collections
@@ -21,7 +21,7 @@ transcript-to-book/
 
 ## Quick Workflow
 
-1. User places `.docx` files in `source_documents/`
+1. User places transcript files in `source_documents/`
 2. User runs `/transcript-to-book`
 3. AI reads files, auto-groups by topic, generates narrative book
 4. Output: `output/[book_name].md`
@@ -35,7 +35,7 @@ transcript-to-book/
 ```
 
 The skill will:
-- Scan `source_documents/` for all .docx files
+- Scan `source_documents/` for supported files (.docx, .txt, .pdf, .srt, .vtt)
 - Auto-group by topic similarity and date patterns
 - Generate narrative book chapters
 - Output to `output/`

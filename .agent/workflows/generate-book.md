@@ -7,7 +7,7 @@ description: Generate a book from transcripts using AI-assisted narrative synthe
 Use this workflow to convert lecture/podcast transcripts into a narrative book.
 
 ## Prerequisites
-- Transcript files in `.docx` format in the workspace
+- Transcript files in `source_documents/` (supports `.docx`, `.txt`, `.pdf`, `.srt`, `.vtt`)
 - Or a `transcripts_extracted.json` file with pre-extracted text
 
 ## How to Run
@@ -17,7 +17,7 @@ Just tell me:
 > "Generate a book from the transcripts in [folder path] using the transcript-to-book skill"
 
 ### Option 2: Step by Step
-1. **Extract transcripts**: If you have .docx files, I'll extract text into JSON
+1. **Extract transcripts**: I'll extract text from your files into JSON
 2. **Group by topic**: I'll analyze filenames and suggest chapter groupings
 3. **Synthesize chapters**: For each chapter, I'll apply the 7-step process:
    - Source & Context

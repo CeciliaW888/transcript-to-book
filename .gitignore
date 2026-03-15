@@ -23,3 +23,8 @@ Thumbs.db
 
 # Sensitive
 .claude/settings.local.json
+# Documentation (generated)
+.env
+node_modules
+dist
+docs/
